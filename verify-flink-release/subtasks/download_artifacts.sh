@@ -33,7 +33,7 @@ function download_artifacts() {
 
   local out_file
   out_file="${working_directory}/download-artifacts.out"
-  wget --recursive --no-parent --directory-prefix ${working_directory} --reject "*.html,*.tmp,*.txt" "${url}/" 2>&1 | tee ${out_file}
+  wget --execute robots=off --recursive --no-parent --directory-prefix ${working_directory} --reject "*.html,*.tmp,*.txt" "${url}/" 2>&1 | tee ${out_file}
   mv ${working_directory}/dist.apache.org/repos/dist/dev/flink/${repository_name}* ${working_directory}
   rm -rf ${working_directory}/dist.apache.org
   mv ${working_directory}/{${repository_name}*,${download_dir_name}}

@@ -43,5 +43,5 @@ function run_flink_session_cluster() {
   mv ${binary_folder}/log ${binary_folder}/log-${label} 
   tar -czf ${working_directory}/${label}.tgz -C ${binary_folder} log-${label}
   rm -rf ${binary_folder}/log-${label}
-  mkdir ${binary_folder}/log
+  mkdir -p ${binary_folder}/log
 }

@@ -113,7 +113,7 @@ repository_name="flink-shaded"
 
 # derive variables
 git_tag="release-$(echo $url | grep -o '[^/]*$' | sed 's/'${repository_name}'-\(.*\)$/\1/g')"
-version="$(echo $git_tag | sed 's/release-\(.*\)-rc[0-9]\+/\1/g')"
+version="$(echo $git_tag | sed -E 's/release-(.*)-rc[0-9]+/\1/g')"
 source_directory="${working_dir}/src"
 checkout_directory="${working_dir}/checkout"
 download_dir_name="downloaded_artifacts"

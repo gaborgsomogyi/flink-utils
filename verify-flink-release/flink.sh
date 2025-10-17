@@ -55,7 +55,7 @@ tasks=(
   "Verifies SHA512 checksums & GPG certification"
   "Checks that all POMs have the right expected version"
   "Generates diffs to compare pom file changes with NOTICE files"
-  "Verifies WordCount in batch mode and streaming mode with a standalone session cluster to verify the logs"
+  "Verifies WordCount in streaming mode and table mode with a standalone session cluster to verify the logs"
 )
 
 print_error_with_usage_and_exit() {
@@ -114,7 +114,7 @@ repository_name="flink"
 
 # derive variables
 flink_git_tag="release-$(echo $url | grep -o '[^/]*$' | sed 's/'${repository_name}'-\(.*\)$/\1/g')"
-flink_shaded_version="$(echo $flink_git_tag | sed 's/release-\(.*\)-rc[0-9]\+/\1/g')"
+flink_shaded_version="$(echo $flink_git_tag | sed -E 's/release-(.*)-rc[0-9]+/\1/g')"
 source_directory="${working_dir}/src"
 checkout_directory="${working_dir}/checkout"
 download_dir_name="downloaded_artifacts"
@@ -140,6 +140,6 @@ build_sources ${working_dir} ${source_directory} ${maven_exec} "${use_default_ma
 
 source_bin=${source_directory}/build-target
 run_flink_session_cluster ${working_dir} session-wordcount-streaming ${source_bin} examples/streaming/WordCount.jar
-run_flink_session_cluster ${working_dir} session-wordcount-batch ${source_bin} examples/batch/WordCount.jar
+run_flink_session_cluster ${working_dir} session-wordcount-table ${source_bin} examples/table/WordCountSQLExample.jar
 
 print_mailing_list_post ${working_dir} "${tasks[@]}"
