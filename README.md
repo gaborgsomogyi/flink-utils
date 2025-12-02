@@ -6,7 +6,7 @@
 ## Usage
 ```
 GPG_KEY=XXX
-gpg --recv-keys ${GPG_KEY}
+gpg --keyserver hkps://keys.openpgp.org --recv-keys ${GPG_KEY}
 FLINK_VERSION=2.0.1-rc1
 MVN_CMD=${HOME}/flink/mvnw
 WORK_DIR=${HOME}/flink-validate

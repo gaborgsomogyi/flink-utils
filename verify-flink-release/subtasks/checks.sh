@@ -29,9 +29,9 @@ function check_gpg() {
   working_directory=$1
   public_gpg_key=$2
   download_directory=$3
-  gpg_key_server=${4:-"pgpkeys.mit.edu"}
+  gpg_key_server=${4:-"hkps://keys.openpgp.org"}
   gpg_checksum_file=${working_directory}/gpg.out
-  
+
   echo "GPG verification happens for:" | tee ${gpg_checksum_file}
   gpg --list-keys ${public_gpg_key} | tee -a ${gpg_checksum_file}
 
@@ -65,7 +65,7 @@ function check_sha512() {
   working_directory=$1
   download_directory=$2
   sha_checksum_file=${working_directory}/sha.out
-  
+
   for f in $(find ${download_directory} -not -name "*sha512" -and -not -name "*asc" -and -type f); do
     sha512_checksum_of_file="$(sha512sum $f | grep -o "^[^ ]*")"
     downloaded_sha512_checksum="$(cat $f.sha512 | grep -o "^[^ ]*")"
