@@ -50,12 +50,12 @@ print_usage() {
 
 function_description="Flink Connector releases"
 tasks=(
-  "Downloads all artifacts"
-  "Extracts sources and runs compilation on sources"
+  "Downloaded all artifacts"
+  "Fetched sources and compiled with JDK17 + Maven 3.8.6"
   "Diff of git tag checkout with downloaded sources"
-  "Verifies SHA512 checksums & GPG certification"
-  "Checks that all POMs have the right expected version"
-  "Generates diffs to compare pom file changes with NOTICE files"
+  "Verified SHA512 checksums & GPG certification"
+  "Checked that all POMs have the right expected version"
+  "Generated diffs to compare pom file changes with NOTICE files"
 )
 
 print_error_with_usage_and_exit() {
