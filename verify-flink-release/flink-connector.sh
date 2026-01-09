@@ -36,14 +36,14 @@ maven_exec="mvn"
 working_dir="$(pwd)"
 
 print_usage() {
-  echo "Usage: $0 [-h] [-d] -u <url> -g <gpg-public-key-ref> -b <base-git-tag> [-m <maven-exec>] [-w <working-directory>]"
+  echo "Usage: $0 [-h] [-d] -u <url> -g <gpg-public-key-ref> -t <target-git-tag> -b <base-git-tag> [-m <maven-exec>] [-w <working-directory>]"
   echo ""
   echo "  -h            Prints information about this script."
   echo "  -d            Enables debug logging."
   echo "  -u            URL that's used for downloaded the artifacts."
   echo "  -g            GPG public key reference that was used for signing the artifacts."
-  echo "  -t            Target git tag to compare to (e.g. 'release-1.15.2')."
-  echo "  -b            Base git tag to compare to (e.g. 'release-1.15.2')."
+  echo "  -t            Target git tag to compare to (e.g. 'v5.1.0-rc2' for connectors)."
+  echo "  -b            Base git tag to compare to (e.g. 'v5.0.0' for connectors)."
   echo "  -m            Maven executable being used. Only Maven 3.8.6 is supported for now. (default: $maven_exec)"
   echo "  -w            Working directory used for downloading and processing the artifacts. The directory needs to exist beforehand. (default: $working_dir)"
 }
