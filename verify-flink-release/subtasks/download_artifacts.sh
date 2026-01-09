@@ -86,7 +86,7 @@ function extract_source_artifacts() {
   # remove this extra layer in the directory structure
   mv ${source_directory}/${repository_name}-${version}/* ${source_directory}
   # try to move hidden files as well
-  if [[ $(ls ${source_directory}/${repository_name}-${version}/.[^.]* | wc -l) != 0 ]]; then
+  if [[ $(ls ${source_directory}/${repository_name}-${version}/.[^.]* 2>/dev/null | wc -l) -ne 0 ]]; then
     mv ${source_directory}/${repository_name}-${version}/.[^.]* ${source_directory}
   fi
 

@@ -33,12 +33,13 @@ function check_gpg() {
   gpg_checksum_file=${working_directory}/gpg.out
 
   echo "GPG verification happens for:" | tee ${gpg_checksum_file}
-  gpg --list-keys ${public_gpg_key} | tee -a ${gpg_checksum_file}
 
   if [[ "$(gpg --list-keys | grep -c $public_gpg_key)" == "0" ]]; then
     echo "The key $public_gpg_key wasn't found in the local registry. Trying to load it from $gpg_key_server." | tee -a ${gpg_checksum_file}
     gpg --keyserver $gpg_key_server --recv-key ${public_gpg_key} | tee -a ${gpg_checksum_file}
   fi
+
+  gpg --list-keys ${public_gpg_key} | tee -a ${gpg_checksum_file}
 
   for f in $(find ${download_directory} -not -name "*sha512" -and -not -name "*asc" -and -type f); do
     echo "$f"
