@@ -47,8 +47,8 @@ function print_info_and_exit() {
 
 function print_mailing_list_post() {
   echo "### print_mailing_list_post $@"
-  
-  if [[ "$#" < 2 ]]; then
+
+  if [[ "$#" -lt 2 ]]; then
     echo "Usage: <working-directory> <tasks>"
     return 1
   fi
