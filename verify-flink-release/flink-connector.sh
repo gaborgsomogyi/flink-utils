@@ -36,7 +36,7 @@ maven_exec="mvn"
 working_dir="$(pwd)"
 
 print_usage() {
-  echo "Usage: $0 [-h] [-d] -u <url> -g <gpg-public-key-ref> -t <target-git-tag> -b <base-git-tag> [-m <maven-exec>] [-w <working-directory>]"
+  echo "Usage: $0 [-h] [-d] -u <url> -g <gpg-public-key-ref> -t <target-git-tag> -b <base-git-tag> [-r <repository-name>] [-m <maven-exec>] [-w <working-directory>]"
   echo ""
   echo "  -h            Prints information about this script."
   echo "  -d            Enables debug logging."
@@ -44,6 +44,7 @@ print_usage() {
   echo "  -g            GPG public key reference that was used for signing the artifacts."
   echo "  -t            Target git tag to compare to (e.g. 'v5.1.0-rc2' for connectors)."
   echo "  -b            Base git tag to compare to (e.g. 'v5.0.0' for connectors)."
+  echo "  -r            GitHub repository name (optional, will be derived from URL if not provided)."
   echo "  -m            Maven executable being used. Only Maven 3.8.6 is supported for now. (default: $maven_exec)"
   echo "  -w            Working directory used for downloading and processing the artifacts. The directory needs to exist beforehand. (default: $working_dir)"
 }
@@ -68,7 +69,7 @@ if [[ "$#" == 0 ]]; then
   print_info_and_exit "$0" "${function_description}" "${tasks[@]}"
 fi
 
-while getopts "hdm:u:g:w:b:t:s:" o; do
+while getopts "hdm:u:g:w:b:t:r:s:" o; do
   case "${o}" in
     d)
       set -x
@@ -88,6 +89,9 @@ while getopts "hdm:u:g:w:b:t:s:" o; do
       ;;
     t)
       target_git_tag=${OPTARG}
+      ;;
+    r)
+      github_repository=${OPTARG}
       ;;
     m)
       maven_exec=${OPTARG}
@@ -117,7 +121,13 @@ fi
 
 # derive variables
 version="$(echo "$url" | rev | cut -d'/' -f1 | cut -d'-' -f2 | rev)"
-repository_name="$(echo "$url" | rev | cut -d'/' -f1 | cut -d'-' -f3- | rev)"
+artifact_name="$(echo "$url" | rev | cut -d'/' -f1 | cut -d'-' -f3- | rev)"
+# Use provided github_repository or derive from URL
+if [[ -n "${github_repository+x}" ]]; then
+  repository_name="${github_repository}"
+else
+  repository_name="${artifact_name}"
+fi
 source_directory="${working_dir}/src"
 checkout_directory="${working_dir}/checkout"
 download_dir_name="downloaded_artifacts"
@@ -125,11 +135,11 @@ download_dir=${working_dir}/${download_dir_name}
 
 check_maven_version $maven_exec
 
-download_artifacts ${working_dir} ${url} ${download_dir_name} ${repository_name}
+download_artifacts ${working_dir} ${url} ${download_dir_name} ${artifact_name}
 
 clone_repo ${working_dir} ${repository_name} ${target_git_tag} ${checkout_directory} ${base_git_tag}
 
-extract_source_artifacts ${working_dir} ${download_dir} ${source_directory} ${repository_name} ${version}
+extract_source_artifacts ${working_dir} ${download_dir} ${source_directory} ${artifact_name} ${version}
 
 check_gpg ${working_dir} ${public_gpg_key} ${download_dir}
 check_sha512 ${working_dir} ${download_dir}
