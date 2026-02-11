@@ -56,7 +56,7 @@ function print_mailing_list_post() {
   out_file="$1/mailing_list.out"
   shift
 
-  echo "+1 (non-binding)" | tee ${out_file}
+  echo "+1 (binding)" | tee ${out_file}
   echo "" | tee -a ${out_file}
   for task in "$@"; do
     echo "* ${task}" | tee -a ${out_file}
