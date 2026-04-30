@@ -4,6 +4,20 @@
 * `verify-flink-release/flink-shaded.sh`: Similar script to check [flink-shaded|https://github.com/apache/flink-shaded] releases
 * `verify-flink-release/flink-connector.sh`: Similar script to check Flink connector releases
 * `verify-flink-release/flink-kubernetes-operator.sh`: Similar script to check Flink Kubernetes Operator releases (includes Docker image and Helm chart verification)
+* `claude-commands/`: Claude Code slash commands. Install with `./install-claude-commands.sh`.
+
+## Claude Commands
+
+### Installation
+
+Run from any directory:
+```
+./install-claude-commands.sh
+```
+
+### Available commands
+
+* `/create-test-plan <ClassName>`: Generates a structured, production-quality JUnit 5 test plan for a given Java class. Analyzes all methods, designs parameterized test cases, resolves mock requirements, and performs gap analysis against existing tests.
 
 ## Usage
 
