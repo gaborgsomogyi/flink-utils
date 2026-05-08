@@ -59,6 +59,6 @@ function print_mailing_list_post() {
   echo "+1 (binding)" | tee ${out_file}
   echo "" | tee -a ${out_file}
   for task in "$@"; do
-    echo "* ${task}" | tee -a ${out_file}
+    echo "- ${task}" | tee -a ${out_file}
   done
 }
